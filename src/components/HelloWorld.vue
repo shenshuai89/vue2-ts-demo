@@ -1,62 +1,98 @@
 <template>
-  <div class="hello">
+<div class="hello">
     <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
+    <p class="val">子组件接收到v-model的值，{{value}}</p>
+    <button @click="changeModelValue">通过子组件的按钮改变v-model的值</button>
+    <p class="desc">
+        For a guide and recipes on how to configure / customize this project,<br>
+        check out the
     </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-typescript" target="_blank" rel="noopener">typescript</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-router" target="_blank" rel="noopener">router</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-vuex" target="_blank" rel="noopener">vuex</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+    <img class="image" src="../assets/logo.png" alt="">
+    <input type="text" v-model="username">
+    <input type="text" v-model="password">
+</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
+import {
+    resizeFont
+} from "../config/utils"
 
 export default Vue.extend({
-  name: 'HelloWorld',
-  props: {
-    msg: String,
-  },
+    name: 'HelloWorld',
+    props: {
+        msg: String,
+        value: {
+            default: ""
+        }
+    },
+    data() {
+        return {
+            username: "",
+            password: ""
+        }
+    },
+    created() {
+        // 移动端配置html的font-size
+        // resizeFont()
+    },
+    methods: {
+        changeModelValue() {
+            this.$emit("input", "传递给v-model的新值")
+        }
+    }
 });
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
+
+<style lang="scss" scoped>
+$titleFontSize:32px;
+$red:#ff0000;
+/* $rem是根据设计稿的宽度设定，设计稿宽度/10 */
+$rem:75;
+
+@function px2rem($px) {
+    @return ($px/$rem)*1rem;
+}
+
+.hello {
+    border: 1px solid #ccc;
+
+    h1 {
+        font-size: $titleFontSize;
+        color: $red;
+    }
+
+    .val {
+        @include px2px(font-size, 30)
+    }
+
+    .desc {
+        @include important-text
+    }
+
+    .image {
+        width: px2rem(200);
+    }
+}
+
 h3 {
-  margin: 40px 0 0;
+    margin: 40px 0 0;
 }
+
 ul {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
+
 li {
-  display: inline-block;
-  margin: 0 10px;
+    display: inline-block;
+    margin: 0 10px;
 }
+
 a {
-  color: #42b983;
+    color: #42b983;
 }
 </style>

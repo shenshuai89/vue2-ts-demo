@@ -1,0 +1,32 @@
+$red: #ee0000;
+@mixin important-text {
+    color: red;
+    font-size: 25px;
+    font-weight: bold;
+    border: 1px solid blue;
+}
+
+/* 混入接收两个参数 */
+@mixin bordered($color, $width) {
+    border: $width solid $color;
+}
+
+/* 针对字体 */
+@mixin px2px($name, $px) {
+    #{$name}: round($px / 2) * 1px;
+    [data-dpr="2"] & {
+        #{$name}: $px * 1px;
+    }
+    [data-dpr="2.5"] & {
+        #{$name}: round($px * 2.5 / 2) * 1px;
+    }
+    [data-dpr="2.75"] & {
+        #{$name}: round($px * 2.75 / 2) * 1px;
+    }
+    [data-dpr="3"] & {
+        #{$name}: round($px / 2 * 3) * 1px
+    }
+    [data-dpr="4"] & {
+        #{$name}: $px * 2px;
+    }
+  }
